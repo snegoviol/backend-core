@@ -1,6 +1,26 @@
+<!--    
+    ================================================================================================
+    
+    Copyright (c) 2026 Ilya Snegov
+    
+    Dedicated to the public domain under the Creative Commons
+    CC0 1.0 Universal Public Domain Dedication (the "Dedication").
+    You may obtain a copy of the Dedication at
+    
+    https://creativecommons.org/publicdomain/zero/1.0/legalcode.en
+
+    ================================================================================================
+    docs/01-dependencies.md
+    ================================================================================================
+-->
+
 # I. Dependencies Overview
 
 > *This document describes the runtime dependencies required by the Backend Core project.*
+
+<!--    
+    ================================================================================================
+-->
 
 ## System Dependencies
 
@@ -10,11 +30,15 @@
 | Docker | [moby/moby](https://github.com/moby/moby) | Containerization platform | Provides the container runtime that isolates and runs the PostgreSQL and Redis images. |
 | Docker Compose | [docker/compose](https://github.com/docker/compose) | Multi-container orchestration tool | Declares containers, their networking, and startup order in a single docker-compose.yml file. |
 
+<!--    
+    ================================================================================================
+-->
+
 ## Pixi Dependencies
 
 | Dependency | Repository | What it is | Role in the project |
 |---|---|---|---|
-| CPython | [python/cpython](https://github.com/python/cpython) | Python virtual machine | Executes all source code across every package. |
+| CPython | [python/cpython](https://github.com/python/cpython) | The de facto standard implementation of the Python programming language | Executes all source code across every package. |
 | FastAPI | [fastapi/fastapi](https://github.com/fastapi/fastapi) | Async web framework | Provides HTTP routing, request validation, dependency injection, and automatic OpenAPI documentation. |
 | Uvicorn | [encode/uvicorn](https://github.com/encode/uvicorn) | ASGI server | Serves the FastAPI application over HTTP. |
 | Pydantic Settings | [pydantic/pydantic-settings](https://github.com/pydantic/pydantic-settings) | Settings management library | Loads and validates environment variables for all configuration classes across every package. |
@@ -29,9 +53,17 @@
 
 [^1]: Despite using `pixi`, loading environment variables from `.env` files in `pixi tasks` is not straightforward — it requires either `direnv`, custom activation scripts, or declaring all variables directly in `pixi.toml`. Since storing configuration in `.env` files is standard practice, hardcoding variables into `pixi.toml` is not an option for this project. That leaves activation scripts or `direnv` — both of which require extra setup and add implicit behavior. Since you end up adding complexity either way, it makes more sense to pick something transparent — `just` loads `.env` files natively, requires no additional scripts or configuration, and its recipes are plain, readable shell commands with no hidden activation logic.
 
+<!--    
+    ================================================================================================
+-->
+
 ## Docker Images
 
 | Dependency | Repository | What it is | Role in the project |
 |---|---|---|---|
 | PostgreSQL | [docker.io/library/postgres](https://hub.docker.com/_/postgres) | Official Docker image for PostgreSQL | Runs the relational database engine in a container, storing all persistent application data: users, roles, permissions, and their associations. |
 | Redis | [docker.io/library/redis](https://hub.docker.com/_/redis) | Official Docker image for Redis | Runs the in-memory data store in a container, storing refresh tokens, blacklisted JWT identifiers, and sliding window rate limit counters. |
+
+<!--    
+    ================================================================================================
+-->

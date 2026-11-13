@@ -1,8 +1,28 @@
-# III. **Request Flows**
+<!--    
+    ================================================================================================
+    
+    Copyright (c) 2026 Ilya Snegov
+    
+    Dedicated to the public domain under the Creative Commons
+    CC0 1.0 Universal Public Domain Dedication (the "Dedication").
+    You may obtain a copy of the Dedication at
+    
+    https://creativecommons.org/publicdomain/zero/1.0/legalcode.en
+
+    ================================================================================================
+    docs/03-request-flows.md
+    ================================================================================================
+-->
+
+# III. Request Flows
 
 > *This document defines the runtime interaction patterns through sequence diagrams, making the execution flow and inter-component communication explicit for each API operation.*
 
 The following diagrams detail how client requests traverse the Service Layer, interact with PostgreSQL for persistent state, and consult Redis for token validation, blacklisting, and rate limiting. Each flow demonstrates the authentication and authorization boundary applied before a request reaches its handler, as well as the role-based access control checks enforced on administrative operations.
+
+<!--    
+    ================================================================================================
+-->
 
 ## `GET /health/shallow/`
 
@@ -13,6 +33,10 @@ sequenceDiagram
     C->>S: GET /health/shallow/
     S-->>C: 200 OK
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `GET /health/deep/`
 
@@ -29,6 +53,10 @@ sequenceDiagram
     end
     S-->>C: 200 OK
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `POST /auth/register`
 
@@ -48,6 +76,10 @@ sequenceDiagram
         S-->>C: 201 Created
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `POST /auth/login`
 
@@ -70,6 +102,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `POST /auth/logout`
 
 ```mermaid
@@ -88,6 +124,10 @@ sequenceDiagram
         S-->>C: 204 No Content
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `POST /auth/refresh`
 
@@ -109,6 +149,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `GET /account/me`
 
 ```mermaid
@@ -127,6 +171,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `PATCH /account/change-bio`
 
 ```mermaid
@@ -144,6 +192,10 @@ sequenceDiagram
         S-->>C: 204 No Content
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `PATCH /account/change-password`
 
@@ -169,6 +221,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `GET /admin/users/`
 
 ```mermaid
@@ -190,6 +246,10 @@ sequenceDiagram
         end
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `GET /admin/users/{user_id}`
 
@@ -216,6 +276,10 @@ sequenceDiagram
         end
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `PATCH /admin/users/{user_id}`
 
@@ -244,6 +308,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `DELETE /admin/users/{user_id}`
 
 ```mermaid
@@ -269,6 +337,10 @@ sequenceDiagram
         end
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `POST /admin/users/{user_id}/roles`
 
@@ -307,6 +379,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `DELETE /admin/users/{user_id}/roles`
 
 ```mermaid
@@ -344,6 +420,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `GET /admin/roles/`
 
 ```mermaid
@@ -365,6 +445,10 @@ sequenceDiagram
         end
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `GET /admin/roles/{role_id}`
 
@@ -391,6 +475,10 @@ sequenceDiagram
         end
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `POST /admin/roles/`
 
@@ -419,6 +507,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `DELETE /admin/roles/{role_id}`
 
 ```mermaid
@@ -444,6 +536,10 @@ sequenceDiagram
         end
     end
 ```
+
+<!--    
+    ================================================================================================
+-->
 
 ## `POST /admin/roles/{role_id}/permissions`
 
@@ -477,6 +573,10 @@ sequenceDiagram
     end
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## `DELETE /admin/roles/{role_id}/permissions`
 
 ```mermaid
@@ -508,3 +608,7 @@ sequenceDiagram
         end
     end
 ```
+
+<!--    
+    ================================================================================================
+-->

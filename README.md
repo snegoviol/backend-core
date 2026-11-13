@@ -1,10 +1,33 @@
+<!--    
+    ================================================================================================
+    
+    Copyright (c) 2026 Ilya Snegov
+    
+    Dedicated to the public domain under the Creative Commons
+    CC0 1.0 Universal Public Domain Dedication (the "Dedication").
+    You may obtain a copy of the Dedication at
+    
+    https://creativecommons.org/publicdomain/zero/1.0/legalcode.en
+
+    ================================================================================================
+    README.md
+    ================================================================================================
+-->
+
 # Backend Core
 
-*An educational project demonstrating how to build a backend server with Python, covering authentication, authorization, rate limiting, access logging and global error handling.*
+> *An educational project demonstrating how to build a backend web server with Python. While designed for learning, its architecture — authentication, authorization, rate limiting, and consistent error handling — provides a solid foundation for real-world projects.*
+
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](#license)
+[![License: CC0-1.0](https://img.shields.io/badge/License-CC0--1.0-blue.svg)](#license)
+
+<!--    
+    ================================================================================================
+-->
 
 ## Project Structure
 
-```
+```sh
 backend-core/
 ├── packages/           # Monorepo root containing all independently deployable
 │   │                   # Python modules and shared libraries. Each package
@@ -28,12 +51,16 @@ backend-core/
 │                       # bootstrapping, infrastructure initialization, and
 │                       # auxiliary utility tasks.
 │
+├── migrations/         # Alembic migration environment and database schema
+│                       # change scripts.
+│
 ├── docs/               # Technical documentation covering project dependencies,
 │                       # codebase layout, and request flow diagrams for every
 │                       # endpoint.
 │
-├── migrations/         # Alembic migration environment and database schema
-│                       # change scripts.
+├── LICENSES/           # Full texts of all licenses used in the project.
+│
+├── LICENSE.txt         # Licensing overview: which license applies to which files.
 │
 ├── docker-compose.yml  # Docker Compose stack for running infrastructure
 │                       # services (PostgreSQL, Redis) locally.
@@ -52,43 +79,60 @@ backend-core/
                         # shortcuts.
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## Quick Start
 
 ### I. Prerequisites
 
-- [Pixi](https://pixi.sh/latest/) package manager.
-- [Docker and Docker Compose](https://docs.docker.com/engine/install/).
-- GNU/Linux-based system on `x86_64` architecture.
+| Component            | Requirement                               |
+| :------------------- | :---------------------------------------- |
+| **Operating System** | GNU/Linux-based system                    |
+| **Architecture**     | `x86_64`                                  |
+| **Package Manager**  | [`Pixi`](https://pixi.prefix.dev/latest/) |
+| **Container Tools**  | [Docker and Docker Compose](https://docs.docker.com/engine/install/) |
 
 > **Note:**  
-> These prerequisites are not strict requirements but describe the environment used for development. The service can be set up in alternative environments with different package managers, operating systems, or tools for running applications in isolated containers if needed.
+> These are not strict requirements, but rather the baseline environment where the code is 
+guaranteed to run out of the box. Alternative setups are possible but may require manual 
+configuration.
+
+<!--    
+    ================================================================================================
+-->
 
 ### II. Setup
 
 1. **Clone the repository**
 
-    ```bash
-    git clone git@github.com:Sierra-Arn/backend-core.git
+    ```sh
+    git clone https://github.com/snegoviol/backend-core.git
     cd backend-core
     ```
 
 2. **Install dependencies**
 
-    ```bash
+    ```sh
     pixi install
     ```
 
 3. **Activate environment**
 
-    ```bash
+    ```sh
     pixi shell
     ```
+
+<!--    
+    ================================================================================================
+-->
 
 ### III. Launch
 
 Once the environment is activated, the service can be launched with a single command:
 
-```bash
+```sh
 just quick-start
 ```
 
@@ -98,14 +142,32 @@ The launch script will automatically execute all necessary setup steps, start th
 > The launch script is fully documented with step-by-step comments explaining each action. You can find it here:
 > - [Quick start script](./packages/scripts/src/scripts/quick_start.py)
 
+<!--    
+    ================================================================================================
+-->
+
 ### IV. Cleanup
 
 When you are done, shut down the running services by terminating the server terminal process, then bring down the infrastructure containers:
 
-```bash
+```sh
 just docker-down
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ## License
 
-This project is licensed under the [Apache License, Version 2.0](LICENSE).
+Each file in this repository is licensed under one of the following licenses:
+
+- [Apache License, Version 2.0](LICENSES/Apache-2.0.txt),
+- [Creative Commons CC0 1.0 Universal Public Domain Dedication](LICENSES/CC0-1.0.txt).
+
+The applicable license is stated in the header comment of each file. 
+See [LICENSE.txt](LICENSE.txt) for details.
+
+<!--    
+    ================================================================================================
+-->

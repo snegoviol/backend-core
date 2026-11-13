@@ -1,6 +1,26 @@
+<!--    
+    ================================================================================================
+    
+    Copyright (c) 2026 Ilya Snegov
+    
+    Dedicated to the public domain under the Creative Commons
+    CC0 1.0 Universal Public Domain Dedication (the "Dedication").
+    You may obtain a copy of the Dedication at
+    
+    https://creativecommons.org/publicdomain/zero/1.0/legalcode.en
+
+    ================================================================================================
+    docs/README.md
+    ================================================================================================
+-->
+
 # Backend Core
 
 > *This directory holds the full technical documentation for Backend Core. This file serves as its entry point: it gives a high-level overview of the service, then points to the file covering each layer of the system, from the technology stack to the runtime behavior of every API operation.*
+
+<!--    
+    ================================================================================================
+-->
 
 ## I. Project Overview
 
@@ -15,6 +35,10 @@ Backend Core is a headless JSON REST API that implements a self-contained Identi
 | Access logging | Every request/response pair is logged with method, path, status code, and latency. |
 | Uniform error envelope | Validation errors, expected HTTP exceptions, and unhandled failures all produce the same JSON structure, so clients need only one error-parsing path. |
 
+<!--    
+    ================================================================================================
+-->
+
 ## II. Documentation Overview
 
 Each file focuses on a specific layer of abstraction, ranging from the technology stack to the runtime behavior of individual endpoints.
@@ -27,3 +51,7 @@ Each file focuses on a specific layer of abstraction, ranging from the technolog
 
 - To review the runtime interaction patterns and sequence diagrams for every API operation, see  
     [03-request-flows.md](03-request-flows.md).
+
+<!--    
+    ================================================================================================
+-->

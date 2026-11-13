@@ -1,23 +1,23 @@
-# Copyright (c) 2026 Ilya Snegov (aka Sierra Arn)
-
+# ==================================================================================================
+# 
+# Copyright (c) 2026 Ilya Snegov
+# 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# ==================================================================================================
 # packages/shared/src/postgres_lib/repositories/role.py
+# ==================================================================================================
+
 from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from .base import BaseRepository
 from ..models import Role, RolePermission, PermissionEnum
 
+# ==================================================================================================
 
 class RoleRepository(BaseRepository):
     """
@@ -36,6 +36,8 @@ class RoleRepository(BaseRepository):
     """
 
     model_class = Role
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def get_by_name(
@@ -70,6 +72,8 @@ class RoleRepository(BaseRepository):
         stmt = select(Role).where(Role.name == name)
         result = await session.execute(stmt)
         return result.scalar_one_or_none()
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def assign_permission(
@@ -109,6 +113,8 @@ class RoleRepository(BaseRepository):
         await session.refresh(role_permission)
         return role_permission
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def revoke_permission(
         cls,
@@ -146,6 +152,8 @@ class RoleRepository(BaseRepository):
         await session.flush()
         return result.fetchone() is not None
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def has_permission(
         cls,
@@ -181,6 +189,8 @@ class RoleRepository(BaseRepository):
         result = await session.execute(stmt)
         return result.scalar_one_or_none() is not None
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def get_permissions_for_role(
         cls,
@@ -208,3 +218,5 @@ class RoleRepository(BaseRepository):
         )
         result = await session.execute(stmt)
         return list(result.scalars().all())
+
+# ==================================================================================================

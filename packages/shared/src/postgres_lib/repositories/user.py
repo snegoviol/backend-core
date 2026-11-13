@@ -1,24 +1,24 @@
-# Copyright (c) 2026 Ilya Snegov (aka Sierra Arn)
-
+# ==================================================================================================
+# 
+# Copyright (c) 2026 Ilya Snegov
+# 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# ==================================================================================================
 # packages/shared/src/postgres_lib/repositories/user.py
+# ==================================================================================================
+
 from sqlalchemy import select, func, delete, Select
 from sqlalchemy.orm import selectinload, noload
 from sqlalchemy.ext.asyncio import AsyncSession
 from .base import BaseRepository
 from ..models import User, Role, UserRole
 
+# ==================================================================================================
 
 class UserRepository(BaseRepository):
     """
@@ -36,6 +36,8 @@ class UserRepository(BaseRepository):
     """
 
     model_class = User
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     def _apply_load_options(
@@ -83,6 +85,8 @@ class UserRepository(BaseRepository):
             stmt = stmt.options(noload(User.roles))
         return stmt
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def get_by_id(
         cls,
@@ -115,6 +119,8 @@ class UserRepository(BaseRepository):
         stmt = cls._apply_load_options(stmt, load_roles, load_permissions)
         result = await session.execute(stmt)
         return result.scalar_one_or_none()
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def get_all(
@@ -154,6 +160,8 @@ class UserRepository(BaseRepository):
         result = await session.execute(stmt)
         return list(result.scalars().all())
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def get_by_email(
         cls,
@@ -187,6 +195,8 @@ class UserRepository(BaseRepository):
         result = await session.execute(stmt)
         return result.scalar_one_or_none()
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def count_all(cls, session: AsyncSession) -> int:
         """
@@ -208,6 +218,8 @@ class UserRepository(BaseRepository):
         stmt = select(func.count()).select_from(User)
         result = await session.execute(stmt)
         return result.scalar_one()
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def assign_role(
@@ -247,6 +259,8 @@ class UserRepository(BaseRepository):
         await session.refresh(user_role)
         return user_role
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def revoke_role(
         cls,
@@ -284,6 +298,8 @@ class UserRepository(BaseRepository):
         await session.flush()
         return result.fetchone() is not None
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def has_role(
         cls,
@@ -318,6 +334,8 @@ class UserRepository(BaseRepository):
         )
         result = await session.execute(stmt)
         return result.scalar_one_or_none() is not None
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def get_roles_for_user(
@@ -354,3 +372,5 @@ class UserRepository(BaseRepository):
         )
         result = await session.execute(stmt)
         return list(result.scalars().all())
+
+# ==================================================================================================

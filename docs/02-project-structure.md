@@ -1,10 +1,30 @@
+<!--    
+    ================================================================================================
+    
+    Copyright (c) 2026 Ilya Snegov
+    
+    Dedicated to the public domain under the Creative Commons
+    CC0 1.0 Universal Public Domain Dedication (the "Dedication").
+    You may obtain a copy of the Dedication at
+    
+    https://creativecommons.org/publicdomain/zero/1.0/legalcode.en
+
+    ================================================================================================
+    docs/02-project-structure.md
+    ================================================================================================
+-->
+
 # II. Project Structure
 
 > *This document describes the logical organization of the project codebase as a Python monorepo. Each package strictly follows the standard `src/` layout for clean imports, independent versioning, and reproducible builds via Pixi.*
 
+<!--    
+    ================================================================================================
+-->
+
 ## Repository Layout
 
-```
+```sh
 backend-core/
 ├── packages/           # Monorepo root containing all independently deployable Python modules
 │   │                   # and shared libraries. Each package strictly follows the standard
@@ -33,6 +53,15 @@ backend-core/
 ├── redis/              # Redis ACL initialization scripts generated from environment
 │                       # variables at bootstrap time.
 │
+├── LICENSES/           # Full texts of all licenses used in the project.
+│   │
+│   ├── Apache-2.0.txt  # Apache License, Version 2.0.
+│   └── CC0-1.0.txt     # Creative Commons CC0 1.0 Universal Public Domain
+│                       # Dedication.
+│
+├── LICENSE.txt         # Licensing overview: states which license applies
+│                       # to which files; refers to `LICENSES/`.
+│
 ├── docker-compose.yml  # Docker Compose stack for running infrastructure services
 │                       # (PostgreSQL, Redis) locally.
 │
@@ -51,7 +80,11 @@ backend-core/
 Every file contains comprehensive inline comments to explain the code. 
 
 > **Note:**  
-Since the primary focus here is on demonstrating backend server patterns rather than database configuration, `docker-compose.yml` uses a minimal setup for both databases — for more detailed PostgreSQL and Redis configurations, see [postgresql-core](https://github.com/Sierra-Arn/postgresql-core) and [redis-core](https://github.com/Sierra-Arn/redis-core).
+Since the primary focus here is on demonstrating backend server patterns rather than database configuration, `docker-compose.yml` uses a minimal setup for both databases — for more detailed PostgreSQL and Redis configurations, see [postgresql-core](https://github.com/snegoviol/postgresql-core) and [redis-core](https://github.com/snegoviol/redis-core).
+
+<!--    
+    ================================================================================================
+-->
 
 ## Package Overview
 
@@ -59,7 +92,7 @@ Since the primary focus here is on demonstrating backend server patterns rather 
 
 The FastAPI application serving as the HTTP boundary of the system. Handles request validation, response serialization, authentication, authorization, rate limiting, access logging, and global error handling.
 
-```
+```sh
 server/
 ├── pyproject.toml
 └── src/server/
@@ -128,11 +161,15 @@ Route handlers are organized by domain resource under `modules/`, with each reso
 
 The `exception_handlers/` directory translates internal exceptions into generic, decoupled error responses. The `middleware/` directory implements cross-cutting concerns applied to every request before it reaches a route handler. The `shared/` directory contains server-specific utilities, such as FastAPI dependencies and Pydantic schemas, which are reused across multiple modules.
 
+<!--    
+    ================================================================================================
+-->
+
 ### 2. `packages/shared/`
 
 Centralizes all infrastructure client code and shared utilities consumed across the system. Implements the concrete clients for PostgreSQL and Redis, and base configuration primitives.
 
-```
+```sh
 shared/
 ├── pyproject.toml
 └── src/
@@ -160,11 +197,15 @@ shared/
         └── client.py               # Async Redis client instances keyed by logical database.
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ### 3. `packages/services/`
 
 Centralizes cross-process business logic built on top of shared infrastructure. Each library implements a self-contained domain concern and is consumed by the server.
 
-```
+```sh
 services/
 ├── pyproject.toml
 └── src/
@@ -183,11 +224,15 @@ services/
             └── refresh_token.py    # Opaque refresh token generation, persistence, and revocation.
 ```
 
+<!--    
+    ================================================================================================
+-->
+
 ### 4. `packages/scripts/`
 
 Standalone automation scripts for environment bootstrapping and developer utilities. Not part of the runtime application but essential for development workflow.
 
-```
+```sh
 scripts/
 ├── pyproject.toml
 └── src/scripts/
@@ -202,13 +247,17 @@ scripts/
 
 The `quick_start.py` script orchestrates infrastructure provisioning, database migration, and process launch in the correct dependency order, eliminating manual setup steps. The `utils/` scripts generate infrastructure initialization artifacts from environment variables, enforcing the principle of least privilege for database users and Redis ACLs.
 
+<!--    
+    ================================================================================================
+-->
+
 ## Infrastructure Directories
 
 ### 5. `migrations/`
 
 Alembic migration environment managing the evolution of the database schema. Contains the configuration file (`alembic.ini`), migration script template, and all versioned migration files including the initial schema and seed data.
 
-```
+```sh
 migrations/
 ├── versions/
 │   ├── d167769d594a_auto_migration.py          # Initial schema: users, roles, role_permissions, user_roles.
@@ -222,6 +271,10 @@ Migrations are generated via `just db-revision` and applied via `just db-migrate
 
 The Alembic environment lives outside `packages/` because it is invoked directly via the `alembic` CLI rather than through Python module conventions, and does not follow package layout rules.
 
+<!--    
+    ================================================================================================
+-->
+
 ### 6. `postgres/` and `redis/`
 
 Infrastructure initialization artifacts generated by the scripts in `packages/scripts/utils/` from environment variables at bootstrap time.
@@ -229,3 +282,7 @@ Infrastructure initialization artifacts generated by the scripts in `packages/sc
 `postgres/` contains the SQL script that creates the application database user with restricted privileges — SELECT, INSERT, UPDATE, and DELETE on tables only, preventing the application user from dropping tables, schemas, or the database itself.
 
 `redis/` contains the ACL configuration that defines two Redis users: an admin user with unrestricted access for operational tasks, and an application user restricted to only the commands the service actually issues (GET, SET, DEL, EXPIRE, ZADD, and similar), with the default user disabled entirely.
+
+<!--    
+    ================================================================================================
+-->

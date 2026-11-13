@@ -1,18 +1,17 @@
-# Copyright (c) 2026 Ilya Snegov (aka Sierra Arn)
-
+# ==================================================================================================
+# 
+# Copyright (c) 2026 Ilya Snegov
+# 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# ==================================================================================================
 # packages/server/src/server/modules/admin/users/manage_roles/routes.py
+# ==================================================================================================
+
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from postgres_lib import UserRepository, RoleRepository, PermissionEnum
@@ -20,6 +19,7 @@ from .schemas import AssignRoleRequest, RevokeRoleRequest
 from ..router import users_admin_router
 from .....shared.dependencies import get_async_db_session, require_permission
 
+# ==================================================================================================
 
 @users_admin_router.post(
     "/{user_id}/roles",
@@ -82,6 +82,7 @@ async def assign_role_route(
     await UserRepository.assign_role(db, user_id=user_id, role_id=body.role_id)
     await db.commit()
 
+# ==================================================================================================
 
 @users_admin_router.delete(
     "/{user_id}/roles",
@@ -143,3 +144,5 @@ async def revoke_role_route(
 
     await UserRepository.revoke_role(db, user_id=user_id, role_id=body.role_id)
     await db.commit()
+
+# ==================================================================================================

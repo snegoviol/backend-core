@@ -1,22 +1,22 @@
-# Copyright (c) 2026 Ilya Snegov (aka Sierra Arn)
-
+# ==================================================================================================
+# 
+# Copyright (c) 2026 Ilya Snegov
+# 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# ==================================================================================================
 # packages/services/src/tokens_lib/services/refresh_token.py
+# ==================================================================================================
+
 import secrets
 from redis_lib import refresh_token_redis_client
 from ..config import tokens_config
 
+# ==================================================================================================
 
 class RefreshTokenService:
     """
@@ -28,6 +28,8 @@ class RefreshTokenService:
     read from tokens_config. Entries are stored in the dedicated refresh
     token Redis database and expire automatically after their configured TTL.
     """
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     def create(cls) -> str:
@@ -47,6 +49,8 @@ class RefreshTokenService:
             request.
         """
         return secrets.token_urlsafe(tokens_config.refresh_token_length)
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def save(
@@ -70,6 +74,8 @@ class RefreshTokenService:
             value=user_id,
         )
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def get_user_id(cls, token: str) -> int | None:
         """
@@ -89,6 +95,8 @@ class RefreshTokenService:
         value = await refresh_token_redis_client.get(token)
         return int(value) if value is not None else None
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def revoke(cls, token: str) -> bool:
         """
@@ -106,6 +114,8 @@ class RefreshTokenService:
             did not exist or had already expired.
         """
         return await refresh_token_redis_client.delete(token) == 1
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def exists(cls, token: str) -> bool:
@@ -130,3 +140,5 @@ class RefreshTokenService:
         retrieving the associated user_id.
         """
         return await refresh_token_redis_client.exists(token) == 1
+
+# ==================================================================================================

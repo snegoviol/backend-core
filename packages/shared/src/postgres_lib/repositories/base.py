@@ -1,24 +1,24 @@
-# Copyright (c) 2026 Ilya Snegov (aka Sierra Arn)
-
+# ==================================================================================================
+# 
+# Copyright (c) 2026 Ilya Snegov
+# 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# ==================================================================================================
 # packages/shared/src/postgres_lib/repositories/base.py
+# ==================================================================================================
+
 from typing import TypeVar, Any, ClassVar
 from abc import ABC
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from ..models import IdModel
 
+# ==================================================================================================
 
 IdModelType = TypeVar("IdModelType", bound=IdModel)
 """
@@ -29,6 +29,7 @@ type safety across different entity types. The bound constraint restricts valid
 substitutions to subclasses of the application declarative base.
 """
 
+# ==================================================================================================
 
 class BaseRepository(ABC):
     """
@@ -95,6 +96,8 @@ class BaseRepository(ABC):
                 f"{cls.__name__} must define 'model_class' as a class variable"
             )
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def create(
         cls,
@@ -123,6 +126,8 @@ class BaseRepository(ABC):
         await session.refresh(db_obj)
         return db_obj
 
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def get_by_id(
         cls,
@@ -147,6 +152,8 @@ class BaseRepository(ABC):
         stmt = select(cls.model_class).where(cls.model_class.id == obj_id)
         result = await session.execute(stmt)
         return result.scalar_one_or_none()
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def get_all(
@@ -183,6 +190,8 @@ class BaseRepository(ABC):
         )
         result = await session.execute(stmt)
         return list(result.scalars().all())
+
+    # ----------------------------------------------------------------------------------------------
 
     @classmethod
     async def update_by_id(
@@ -223,7 +232,9 @@ class BaseRepository(ABC):
         await session.flush()
         await session.refresh(db_obj)
         return db_obj
-    
+
+    # ----------------------------------------------------------------------------------------------
+
     @classmethod
     async def delete_by_id(
         cls,
@@ -250,3 +261,5 @@ class BaseRepository(ABC):
             return False
         await session.delete(db_obj)
         return True
+
+# ==================================================================================================

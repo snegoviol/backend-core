@@ -25,7 +25,7 @@
     ================================================================================================
 -->
 
-## Project Structure
+## Project Structure at a Glance
 
 ```sh
 backend-core/
@@ -87,12 +87,12 @@ backend-core/
 
 ### I. Prerequisites
 
-| Component            | Requirement                               |
-| :------------------- | :---------------------------------------- |
-| **Operating System** | GNU/Linux-based system                    |
-| **Architecture**     | `x86_64`                                  |
-| **Package Manager**  | [`Pixi`](https://pixi.prefix.dev/latest/) |
-| **Container Tools**  | [Docker and Docker Compose](https://docs.docker.com/engine/install/) |
+| **Component**               | **Requirement**                |
+| :-------------------------- | :----------------------------- |
+| **CPU**                     | Supports `x86_64` architecture |
+| **Operating System**        | `GNU/Linux`-based              |
+| **Package Management Tool** | [`Pixi`](https://pixi.prefix.dev/latest/#installation) |
+| **Container Tool**          | [`Docker`](https://docs.docker.com/engine/install/) |
 
 > **Note:**  
 > These are not strict requirements, but rather the baseline environment where the code is 
